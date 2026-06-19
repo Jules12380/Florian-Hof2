@@ -22,9 +22,21 @@
 
     body {
       font-family: 'Source Sans 3', sans-serif;
-      color: var(--text);
-      background: #fafaf7;
+      color: #fff;
       line-height: 1.7;
+      background-image: url('fotos/florian-hof-flagge.jpg');
+      background-size: cover;
+      background-position: center 25%;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,10,6,0.35) 0%, rgba(8,10,6,0.6) 100%);
+      z-index: -1;
     }
 
     /* ── TOP BAR (transparent, fixed) ── */
@@ -79,16 +91,8 @@
     .hero {
       position: relative;
       min-height: 100vh;
-      background-image: url('fotos/florian-hof-flagge.jpg');
-      background-size: cover;
-      background-position: center 30%;
       display: flex;
       align-items: flex-end;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(10,15,5,0.15) 0%, rgba(10,15,5,0.55) 60%, rgba(10,15,5,0.85) 100%);
     }
     .hero-content {
       position: relative;
@@ -152,11 +156,11 @@
     h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.6rem, 3vw, 2.2rem);
-      color: var(--green-dark);
+      color: #fff;
       margin-bottom: 1.5rem;
       line-height: 1.25;
     }
-    p { color: var(--text-muted); margin-bottom: 1rem; }
+    p { color: rgba(255,255,255,0.82); margin-bottom: 1rem; }
 
     /* ── ÜBER UNS ── */
     .about-grid {
@@ -170,6 +174,7 @@
       aspect-ratio: 4/3;
       object-fit: cover;
       border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
     }
     .about-text p { font-size: 1.05rem; }
 
@@ -182,7 +187,7 @@
     .history-year {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem;
-      color: var(--green-dark);
+      color: #fff;
       margin-bottom: 0.3rem;
     }
     .history-img {
@@ -217,9 +222,9 @@
     .gallery-caption {
       padding: 0.5rem 0.75rem;
       font-size: 12px;
-      color: var(--text-muted);
-      background: #fff;
-      border-top: 1px solid var(--border);
+      color: rgba(255,255,255,0.85);
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
     }
 
     /* Lightbox */
@@ -256,25 +261,27 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 6px;
       overflow: hidden;
       margin-bottom: 2rem;
+      backdrop-filter: blur(6px);
     }
-    .box-type { background: #fff; padding: 1.5rem; }
+    .box-type { background: rgba(0,0,0,0.25); padding: 1.5rem; }
     .box-type h3 {
       font-family: 'Playfair Display', serif;
       font-size: 1.05rem;
-      color: var(--green-dark);
+      color: #fff;
       margin-bottom: 0.4rem;
     }
-    .box-type p { font-size: 0.9rem; margin: 0; }
+    .box-type p { font-size: 0.9rem; margin: 0; color: rgba(255,255,255,0.8); }
 
     .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
     .tag {
-      background: var(--green-light);
-      color: var(--green-dark);
+      background: rgba(122,182,72,0.25);
+      border: 1px solid var(--green-accent);
+      color: #fff;
       font-size: 13px;
       padding: 0.3rem 0.8rem;
       border-radius: 20px;
@@ -282,13 +289,14 @@
     }
 
     .note-bar {
-      border: 1px solid var(--border);
-      background: var(--green-pale);
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
       border-radius: 6px;
       padding: 1rem 1.5rem;
       margin-bottom: 2rem;
       font-size: 14px;
-      color: var(--green-dark);
+      color: #fff;
     }
 
     /* ── AUSSTATTUNG ── */
@@ -296,21 +304,22 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 6px;
       overflow: hidden;
+      backdrop-filter: blur(6px);
     }
-    .feature-item { background: #fff; padding: 1.8rem 1.5rem; transition: background 0.2s; }
-    .feature-item:hover { background: var(--green-pale); }
+    .feature-item { background: rgba(0,0,0,0.25); padding: 1.8rem 1.5rem; transition: background 0.2s; }
+    .feature-item:hover { background: rgba(0,0,0,0.4); }
     .feature-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
     .feature-item h3 {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
-      color: var(--green-dark);
+      color: #fff;
       margin-bottom: 0.3rem;
     }
-    .feature-item p { font-size: 0.9rem; margin: 0; }
+    .feature-item p { font-size: 0.9rem; margin: 0; color: rgba(255,255,255,0.8); }
 
     /* ── KONTAKT / FORM ── */
     .contact-grid {
@@ -321,13 +330,14 @@
     }
     .contact-info p { font-size: 1rem; }
     .contact-detail { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
-    .contact-row { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.95rem; color: var(--text-muted); }
-    .contact-row a { color: var(--green-mid); text-decoration: none; }
+    .contact-row { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.95rem; color: rgba(255,255,255,0.85); }
+    .contact-row a { color: var(--green-accent); text-decoration: none; }
     .contact-row a:hover { text-decoration: underline; }
 
     .form-card {
-      background: #fff;
-      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
       border-radius: 8px;
       padding: 2rem;
     }
@@ -336,7 +346,7 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: var(--green-dark);
+      color: #fff;
       margin-bottom: 0.4rem;
     }
     .form-row input,
@@ -344,18 +354,21 @@
     .form-row textarea {
       width: 100%;
       padding: 0.6rem 0.8rem;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.3);
       border-radius: 4px;
       font-family: 'Source Sans 3', sans-serif;
       font-size: 14px;
-      color: var(--text);
-      background: var(--green-pale);
+      color: #fff;
+      background: rgba(255,255,255,0.1);
     }
+    .form-row input::placeholder,
+    .form-row textarea::placeholder { color: rgba(255,255,255,0.5); }
+    .form-row select option { color: #1a2212; }
     .form-row textarea { resize: vertical; min-height: 90px; }
     .form-row-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .form-submit {
       width: 100%;
-      background: var(--green-dark);
+      background: var(--green-accent);
       color: #fff;
       border: none;
       padding: 0.8rem;
@@ -368,12 +381,13 @@
       transition: background 0.2s;
     }
     .form-submit:hover { background: var(--green-mid); }
-    .form-note { font-size: 12px; color: var(--text-muted); margin-top: 0.8rem; text-align: center; }
+    .form-note { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 0.8rem; text-align: center; }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--green-dark);
-      color: rgba(255,255,255,0.5);
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(6px);
+      color: rgba(255,255,255,0.6);
       text-align: center;
       padding: 1.5rem;
       font-size: 13px;
