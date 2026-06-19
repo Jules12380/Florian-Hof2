@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Florian-Hof Rheurdt – Reit- und Pensionsstall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #2d4a1e;
+      --green-mid: #3b6d11;
+      --green-accent: #7ab648;
+      --green-light: #e8f0d8;
+      --green-pale: #f4f8ee;
+      --text: #1a2212;
+      --text-muted: #5a6e4a;
+      --border: #c8dab0;
+    }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      color: var(--text);
+      background: #fafaf7;
+      line-height: 1.7;
+    }
+
+    /* ── TOP BAR (transparent, fixed) ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 100%);
+      transition: background 0.3s;
+    }
+    .topbar.solid {
+      background: rgba(45,74,30,0.97);
+      backdrop-filter: blur(8px);
+      padding: 0.9rem 2.5rem;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .nav {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav-item {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+    }
+    .nav-item:hover { color: #fff; }
+    .nav-item.active { color: #fff; border-bottom-color: var(--green-accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background-image: url('fotos/florian-hof-flagge.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,15,5,0.15) 0%, rgba(10,15,5,0.55) 60%, rgba(10,15,5,0.85) 100%);
+    }
+    .hero-content {
+      position: relative;
+      padding: 0 2.5rem 5rem;
+      max-width: 680px;
+      color: #fff;
+    }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.12;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.05rem;
+      margin-bottom: 1.8rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--green-accent);
+      color: #fff;
+      padding: 0.7rem 2rem;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .hero-cta:hover { background: var(--green-mid); }
+
+    /* ── PANELS ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .content-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-accent);
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--green-dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.25;
+    }
+    p { color: var(--text-muted); margin-bottom: 1rem; }
+
+    /* ── ÜBER UNS ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .about-text p { font-size: 1.05rem; }
+
+    /* ── GESCHICHTE ── */
+    .history-line {
+      border-left: 3px solid var(--green-accent);
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .history-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--green-dark);
+      margin-bottom: 0.3rem;
+    }
+    .history-img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin: 2rem 0;
+    }
+
+    /* ── GALERIE ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .gallery-item {
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--green-dark);
+    }
+    .gallery-item img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s, opacity 0.3s;
+      opacity: 0.92;
+    }
+    .gallery-item:hover img { transform: scale(1.04); opacity: 1; }
+    .gallery-caption {
+      padding: 0.5rem 0.75rem;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img-wrap { position: relative; display: flex; align-items: center; gap: 1rem; }
+    .lightbox img { max-width: 80vw; max-height: 78vh; object-fit: contain; border-radius: 3px; display: block; }
+    .lightbox-caption { color: rgba(255,255,255,0.7); font-size: 14px; text-align: center; }
+    .lightbox-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      color: #fff; font-size: 2rem; cursor: pointer;
+      background: none; border: none; line-height: 1; z-index: 1001;
+    }
+    .lightbox-nav {
+      background: rgba(255,255,255,0.15); border: none; color: #fff;
+      font-size: 2rem; width: 48px; height: 48px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+
+    /* ── BOXEN ── */
+    .box-types {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .box-type { background: #fff; padding: 1.5rem; }
+    .box-type h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--green-dark);
+      margin-bottom: 0.4rem;
+    }
+    .box-type p { font-size: 0.9rem; margin: 0; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 13px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .note-bar {
+      border: 1px solid var(--border);
+      background: var(--green-pale);
+      border-radius: 6px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 14px;
+      color: var(--green-dark);
+    }
+
+    /* ── AUSSTATTUNG ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .feature-item { background: #fff; padding: 1.8rem 1.5rem; transition: background 0.2s; }
+    .feature-item:hover { background: var(--green-pale); }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+    .feature-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--green-dark);
+      margin-bottom: 0.3rem;
+    }
+    .feature-item p { font-size: 0.9rem; margin: 0; }
+
+    /* ── KONTAKT / FORM ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .contact-info p { font-size: 1rem; }
+    .contact-detail { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .contact-row { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.95rem; color: var(--text-muted); }
+    .contact-row a { color: var(--green-mid); text-decoration: none; }
+    .contact-row a:hover { text-decoration: underline; }
+
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .form-row { margin-bottom: 1.1rem; }
+    .form-row label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green-dark);
+      margin-bottom: 0.4rem;
+    }
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--green-pale);
+    }
+    .form-row textarea { resize: vertical; min-height: 90px; }
+    .form-row-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-submit {
+      width: 100%;
+      background: var(--green-dark);
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--green-mid); }
+    .form-note { font-size: 12px; color: var(--text-muted); margin-top: 0.8rem; text-align: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 13px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .topbar { padding: 1rem 1.2rem; }
+      .topbar.solid { padding: 0.8rem 1.2rem; }
+      .nav { gap: 1.1rem; }
+      .nav-item { font-size: 11.5px; }
+      .hero-content { padding: 0 1.2rem 3rem; }
+      .content-wrap { padding: 3rem 1.2rem; }
+      .about-grid, .contact-grid, .form-row-pair { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .box-types, .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar" id="topbar">
+  <div class="logo">Florian-Hof</div>
+  <div class="nav">
+    <button class="nav-item active" onclick="showPanel('ueber-uns')" data-tab="ueber-uns">Über uns</button>
+    <button class="nav-item" onclick="showPanel('geschichte')" data-tab="geschichte">Geschichte</button>
+    <button class="nav-item" onclick="showPanel('galerie')" data-tab="galerie">Galerie</button>
+    <button class="nav-item" onclick="showPanel('boxen')" data-tab="boxen">Boxen & Haltung</button>
+    <button class="nav-item" onclick="showPanel('ausstattung')" data-tab="ausstattung">Ausstattung</button>
+    <button class="nav-item" onclick="showPanel('kontakt')" data-tab="kontakt">Kontakt</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Reit- und Pensionsstall · Rheurdt</p>
+    <h1>Ein Hof mit Herz für Pferd und Reiter</h1>
+    <p>Familiär geführt, mitten im Niederrhein. Hier zählt jedes Pferd als Individuum – egal mit welchen Bedürfnissen.</p>
+    <button class="hero-cta" onclick="showPanel('kontakt')">Platz anfragen</button>
+  </div>
+</div>
+
+<!-- PANEL: ÜBER UNS -->
+<div id="panel-ueber-uns" class="panel active">
+  <div class="content-wrap">
+    <div class="about-grid">
+      <img class="about-img" src="fotos/florian-hof-luftbild.jpg" alt="Florian-Hof Luftbild">
+      <div class="about-text">
+        <p class="section-label">Willkommen</p>
+        <h2>Ein Hof mit Herz für Pferd und Reiter</h2>
+        <p>Der Florian-Hof in Rheurdt ist ein familiär geführter Reit- und Pensionsstall mitten im Niederrhein. Umgeben von weitläufigen Koppeln, ruhiger Natur und einem Hauch Stallgeschichte bieten wir Ihrem Pferd ein echtes Zuhause.</p>
+        <p>Wir legen größten Wert auf das Wohlbefinden jedes einzelnen Pferdes – auch solcher mit besonderen Bedürfnissen wie Hufrehe oder Allergien.</p>
+        <p>Familiär betrieben von zwei leidenschaftlichen Pferdemenschen.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: GESCHICHTE -->
+<div id="panel-geschichte" class="panel">
+  <div class="content-wrap">
+    <p class="section-label">Unsere Geschichte</p>
+    <h2>Wie alles begann</h2>
+
+    <div class="history-line">
+      <div class="history-year">Der Anfang – Florian</div>
+      <p>Der Hof trägt seinen Namen von einem ganz besonderen Bewohner: Florian, einem Pferd mit Geschichte. Als ehemaliger privater Military-Hof hat das Gelände tief verwurzelte Verbindungen zur Pferdewelt – und Florian war mittendrin.</p>
+    </div>
+
+    <img class="history-img" src="fotos/florian-hof-innenhof.jpg" alt="Innenhof Florian-Hof">
+
+    <div class="history-line">
+      <div class="history-year">2025 – Ein neues Kapitel</div>
+      <p>Die neuen Eigentümer kauften den Hof im Jahr 2025. Beide voll berufstätig, beide leidenschaftliche Pferdemenschen. Der Grund? Frust. Als jahrelange Einsteller wussten sie: einen wirklich guten Pensionsstall zu finden ist schwerer als gedacht. Also haben sie es selbst in die Hand genommen.</p>
+    </div>
+
+    <div class="history-line">
+      <div class="history-year">Heute</div>
+      <p>Der Florian-Hof ist kein Großbetrieb – er ist ein Ort, an dem Pferde und ihre Menschen sich wohlfühlen sollen. Persönlich, verlässlich, mit echtem Stallgefühl am Niederrhein.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: GALERIE -->
+<div id="panel-galerie" class="panel">
+  <div class="content-wrap">
+    <p class="section-label">Eindrücke</p>
+    <h2>Der Hof in Bildern</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox(0)">
+        <img src="fotos/florian-hof-luftbild.jpg" alt="Luftbild">
+        <div class="gallery-caption">Florian-Hof aus der Vogelperspektive</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(1)">
+        <img src="fotos/florian-hof-sonnenuntergang.jpg" alt="Sonnenuntergang mit Pferden">
+        <div class="gallery-caption">Feierabend auf dem Paddock</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(2)">
+        <img src="fotos/florian-hof-reithalle.jpg" alt="Reithalle">
+        <div class="gallery-caption">Reithalle – ganzjährig nutzbar</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(3)">
+        <img src="fotos/florian-hof-longierzirkel.jpg" alt="Longierzirkel">
+        <div class="gallery-caption">Longierzirkel / Roundpen</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(4)">
+        <img src="fotos/florian-hof-reitplatz-aussen.jpg" alt="Außenreitplatz">
+        <div class="gallery-caption">Beleuchteter Außenreitplatz</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(5)">
+        <img src="fotos/florian-hof-koppeln.jpg" alt="Koppeln">
+        <div class="gallery-caption">Weitläufige Koppeln</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(6)">
+        <img src="fotos/florian-hof-pferde-paddock.jpg" alt="Pferde am Paddock">
+        <div class="gallery-caption">Paddocks mit Heufütterung</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(7)">
+        <img src="fotos/florian-hof-boxen.jpg" alt="Boxen">
+        <div class="gallery-caption">Moderne Innenboxen</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(8)">
+        <img src="fotos/florian-hof-fuehranlage.jpg" alt="Führanlage">
+        <div class="gallery-caption">Überdachte Führanlage</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(9)">
+        <img src="fotos/florian-hof-innenhof.jpg" alt="Innenhof">
+        <div class="gallery-caption">Innenhof mit Stallgebäuden</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: BOXEN -->
+<div id="panel-boxen" class="panel">
+  <div class="content-wrap">
+    <p class="section-label">Unterkunft</p>
+    <h2>Boxen & Haltung</h2>
+
+    <div class="note-bar">Neugierig geworden? Einfach unverbindlich anfragen – wir erzählen gerne mehr.</div>
+
+    <div class="box-types">
+      <div class="box-type">
+        <h3>🏠 Innenbox</h3>
+        <p>Geräumige Innenboxen mit direktem Stallzugang und natürlicher Belüftung.</p>
+      </div>
+      <div class="box-type">
+        <h3>🌿 Paddockbox</h3>
+        <p>Box mit direkt angeschlossenem eigenem Paddock – für mehr Bewegungsfreiheit.</p>
+      </div>
+      <div class="box-type">
+        <h3>🪟 Fensterbox</h3>
+        <p>Helle Boxen mit großem Fenster – sozialer Kontakt und gute Durchlüftung.</p>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:2rem;">Besondere Bedürfnisse</p>
+    <p>Wir sind speziell auf Pferde mit gesundheitlichen Anforderungen eingestellt:</p>
+    <div class="tag-list">
+      <span class="tag">Allergikerstall</span>
+      <span class="tag">Hufrehe-geeignet</span>
+      <span class="tag">Hunde willkommen</span>
+    </div>
+
+    <img src="fotos/florian-hof-boxen.jpg" alt="Boxen Florian-Hof" style="width:100%; border-radius:4px; margin-top:2rem; object-fit:cover; max-height:340px;">
+  </div>
+</div>
+
+<!-- PANEL: AUSSTATTUNG -->
+<div id="panel-ausstattung" class="panel">
+  <div class="content-wrap">
+    <p class="section-label">Ausstattung</p>
+    <h2>Was wir bieten</h2>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🏟️</div>
+        <h3>Reithalle</h3>
+        <p>Große überdachte Halle für ganzjähriges Reiten – bei jedem Wetter.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌿</div>
+        <h3>Außenreitplatz</h3>
+        <p>Beleuchteter Sandplatz für Training und freies Reiten unter freiem Himmel.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⭕</div>
+        <h3>Longierzirkel</h3>
+        <p>Runder Longierplatz für gezieltes Bodenarbeitstraining.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔄</div>
+        <h3>Führanlage</h3>
+        <p>Auf Anfrage buchbar – täglicher Einsatz durch den Stallbetrieb.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">☀️</div>
+        <h3>Solarium</h3>
+        <p>Infrarot-Solarium zur Muskelentspannung und Fellpflege.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌾</div>
+        <h3>Weiden & Paddocks</h3>
+        <p>Großzügige Sommerweide und individuelle Paddocks für täglichen Auslauf.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: KONTAKT -->
+<div id="panel-kontakt" class="panel">
+  <div class="content-wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p class="section-label">Kontakt</p>
+        <h2>Sprechen Sie uns an</h2>
+        <p>Interesse an einem Einstellplatz oder Fragen zur Anlage? Wir freuen uns auf Ihre Nachricht.</p>
+        <div class="contact-detail">
+          <div class="contact-row">📍 Hochend 80, 47509 Rheurdt</div>
+          <div class="contact-row">📞 <a href="tel:+491729095458">0172 / 909 54 58</a></div>
+          <div class="contact-row">✉️ <a href="mailto:info.florian.hof@web.de">info.florian.hof@web.de</a></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form id="anfrage-form">
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" name="name" required>
+          </div>
+          <div class="form-row-pair">
+            <div class="form-row">
+              <label>E-Mail</label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-row">
+              <label>Telefon (optional)</label>
+              <input type="tel" name="telefon">
+            </div>
+          </div>
+          <div class="form-row-pair">
+            <div class="form-row">
+              <label>Pferd</label>
+              <select name="pferd">
+                <option value="">Bitte wählen</option>
+                <option value="Stute">Stute</option>
+                <option value="Wallach">Wallach</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Interesse an</label>
+              <select name="box">
+                <option value="">Bitte wählen</option>
+                <option value="Innenbox">Innenbox</option>
+                <option value="Fensterbox">Fensterbox</option>
+                <option value="Paddockbox">Paddockbox</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Nachricht</label>
+            <textarea name="nachricht" placeholder="Erzählen Sie uns kurz von Ihrem Pferd und Ihrer Anfrage..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Anfrage senden</button>
+          <p class="form-note">Formular noch nicht aktiv – Versand wird in Kürze eingerichtet.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-img-wrap">
+    <button class="lightbox-nav" onclick="navLightbox(-1)">‹</button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav" onclick="navLightbox(1)">›</button>
+  </div>
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<footer>
+  © 2026 Florian-Hof Rheurdt · Reit- und Pensionsstall · Hochend 80, 47509 Rheurdt
+</footer>
+
+<script>
+  const gallery = [
+    { src: 'fotos/florian-hof-luftbild.jpg',         caption: 'Florian-Hof aus der Vogelperspektive' },
+    { src: 'fotos/florian-hof-sonnenuntergang.jpg',  caption: 'Feierabend auf dem Paddock' },
+    { src: 'fotos/florian-hof-reithalle.jpg',        caption: 'Reithalle – ganzjährig nutzbar' },
+    { src: 'fotos/florian-hof-longierzirkel.jpg',    caption: 'Longierzirkel / Roundpen' },
+    { src: 'fotos/florian-hof-reitplatz-aussen.jpg', caption: 'Beleuchteter Außenreitplatz' },
+    { src: 'fotos/florian-hof-koppeln.jpg',          caption: 'Weitläufige Koppeln' },
+    { src: 'fotos/florian-hof-pferde-paddock.jpg',   caption: 'Paddocks mit Heufütterung' },
+    { src: 'fotos/florian-hof-boxen.jpg',            caption: 'Moderne Innenboxen' },
+    { src: 'fotos/florian-hof-fuehranlage.jpg',       caption: 'Überdachte Führanlage' },
+    { src: 'fotos/florian-hof-innenhof.jpg',          caption: 'Innenhof mit Stallgebäuden' },
+  ];
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function updateLightbox() {
+    document.getElementById('lightbox-img').src = gallery[currentIndex].src;
+    document.getElementById('lightbox-caption').textContent =
+      gallery[currentIndex].caption + ' (' + (currentIndex + 1) + ' / ' + gallery.length + ')';
+  }
+  function navLightbox(dir) {
+    currentIndex = (currentIndex + dir + gallery.length) % gallery.length;
+    updateLightbox();
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  function showPanel(tab) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    window.scrollTo({ top: document.querySelector('.hero').offsetHeight - 60, behavior: 'smooth' });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+  });
+
+  // Solid topbar on scroll past hero
+  const topbar = document.getElementById('topbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) topbar.classList.add('solid');
+    else topbar.classList.remove('solid');
+  });
+
+  document.getElementById('anfrage-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Formular ist noch nicht aktiv. Bitte vorerst per Telefon oder E-Mail melden.');
+  });
+</script>
+</body>
+</html>
