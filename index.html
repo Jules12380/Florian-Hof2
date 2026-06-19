@@ -94,6 +94,17 @@
     .panel::-webkit-scrollbar { width: 6px; }
     .panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 3px; }
 
+    .panel-start {
+      display: none;
+      height: 100%;
+      align-items: flex-end;
+      padding: 0 2.5rem 4rem;
+    }
+    .panel-start.active { display: flex; }
+    .start-content { max-width: 600px; }
+    .start-content h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); }
+    .start-sub { font-size: 1.15rem; color: rgba(255,255,255,0.88); }
+
     .inner {
       max-width: 980px;
       margin: 0 auto;
@@ -270,6 +281,7 @@
       .app { height: auto; min-height: 100vh; }
       .stage { overflow: visible; }
       .panel { overflow-y: visible; height: auto; padding: 0.5rem 1.2rem 2rem; }
+      .panel-start { height: 60vh; min-height: 320px; padding: 0 1.2rem 2rem; align-items: flex-end; }
       .inner { height: auto; justify-content: flex-start; padding: 1.4rem 1.3rem; margin: 0.8rem; }
       .topbar { padding: 1rem 1.2rem; flex-wrap: wrap; gap: 0.6rem; }
       .nav { gap: 1rem; width: 100%; }
@@ -283,9 +295,9 @@
 
 <div class="app">
   <nav class="topbar">
-    <div class="logo" onclick="showPanel('ueber-uns')" style="cursor:pointer;">Florian-Hof</div>
+    <div class="logo" onclick="showPanel('start')" style="cursor:pointer;">Florian-Hof</div>
     <div class="nav">
-      <button class="nav-item active" onclick="showPanel('ueber-uns')" data-tab="ueber-uns">Über uns</button>
+      <button class="nav-item" onclick="showPanel('ueber-uns')" data-tab="ueber-uns">Über uns</button>
       <button class="nav-item" onclick="showPanel('geschichte')" data-tab="geschichte">Geschichte</button>
       <button class="nav-item" onclick="showPanel('galerie')" data-tab="galerie">Galerie</button>
       <button class="nav-item" onclick="showPanel('boxen')" data-tab="boxen">Boxen & Haltung</button>
@@ -296,8 +308,17 @@
 
   <div class="stage">
 
+    <!-- START / HOME -->
+    <div id="panel-start" class="panel active panel-start">
+      <div class="start-content">
+        <p class="eyebrow">Reit- und Pensionsstall · Rheurdt</p>
+        <h1>Florian-Hof</h1>
+        <p class="start-sub">Ein Hof mit Herz für Pferd und Reiter</p>
+      </div>
+    </div>
+
     <!-- ÜBER UNS -->
-    <div id="panel-ueber-uns" class="panel active">
+    <div id="panel-ueber-uns" class="panel">
       <div class="inner">
         <div class="about-grid">
           <img class="about-img" src="fotos/florian-hof-luftbild.jpg" alt="Florian-Hof Luftbild">
